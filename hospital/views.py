@@ -84,8 +84,8 @@ def View_patient(request):
     if not request.user.is_staff:
         return redirect('login')
     pat = Patient.objects.all()
-    c = {'pat': pat}
-    return render(request, 'view_patient.html', c)
+    context = {'pat': pat}
+    return render(request, 'view_patient.html', context)
 
 
 def Add_patient(request):
@@ -100,10 +100,12 @@ def Add_patient(request):
         try:
             Patient.objects.create(name=n, gender=g, mobile=m, address=a)
             error = "no"
+            return redirect('view_patient')
+
         except:
             error = "yes"
-    d = {'error': error}
-    return render(request, 'add_patient.html', d)
+    p = {'error': error}
+    return render(request, 'add_patient.html', p)
 
 
 def Delete_patient(request, pid):
@@ -143,8 +145,8 @@ def Add_appointment(request):
             error = "no"
         except:
             error = "yes"
-    d = {'doctor': doctor1, 'patient': patient1, 'error': error}
-    return render(request, 'add_appointment.html', d)
+    app = {'doctor': doctor1, 'patient': patient1, 'error': error}
+    return render(request, 'add_appointment.html', app)
 
 
 def Delete_appointment(request, pid):
